@@ -13,8 +13,7 @@ public class UserService {
     @Resource
     private UserDao userDao;
 
-    public List<User> getUser() {
-        //return userDao.getUser();
+    public List<User> findAll() {
         return userDao.selectAll();
     }
 }
