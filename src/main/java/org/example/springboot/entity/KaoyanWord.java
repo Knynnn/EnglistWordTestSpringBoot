@@ -11,7 +11,7 @@ public class KaoyanWord {
 
     private String word;
     private String definition;
-    private Integer difficulty_level_id;
+    private Integer level;
 
     public Integer getId() {
         return id;
@@ -37,12 +37,12 @@ public class KaoyanWord {
         this.definition = definition;
     }
 
-    public Integer getDifficulty_level_id() {
-        return difficulty_level_id;
+    public Integer getLevel() {
+        return level;
     }
 
-    public void setDifficulty_level_id(Integer difficulty_level_id) {
-        this.difficulty_level_id = difficulty_level_id;
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
 

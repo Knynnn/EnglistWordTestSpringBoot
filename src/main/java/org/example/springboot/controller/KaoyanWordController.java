@@ -1,14 +1,12 @@
 package org.example.springboot.controller;
 
+import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.example.springboot.common.Result;
 import org.example.springboot.entity.KaoyanWord;
 import org.example.springboot.entity.Params;
 import org.example.springboot.service.KaoyanWordService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +17,16 @@ public class KaoyanWordController {
     @Resource
     private KaoyanWordService kaoyanWordService;
 
+    @PostMapping
+    public Result save(@RequestBody KaoyanWord kaoyanWord) {
+        if(kaoyanWord.getId() == null) {
+            kaoyanWordService.add(kaoyanWord);
+        } else {
+            kaoyanWordService.update(kaoyanWord);
+        }
+        return Result.success();
+    }
+
     @GetMapping
     public Result findAll() {
         List<KaoyanWord> list = kaoyanWordService.finnAll();
@@ -27,8 +35,14 @@ public class KaoyanWordController {
 
     @GetMapping("/search")
     public Result findBySearch(Params params) {
-        List<KaoyanWord> list = kaoyanWordService.findBySearch(params);
-        return Result.success(list);
+        PageInfo<KaoyanWord> info = kaoyanWordService.findBySearch(params);
+        return Result.success(info);
 
+    }
+
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id) {
+        kaoyanWordService.delete(id);
+        return Result.success();
     }
 }
