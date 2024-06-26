@@ -16,4 +16,8 @@ public class UserService {
     public List<User> findAll() {
         return userDao.selectAll();
     }
+
+    public User login(User user) {
+        return userDao.selectOne(user);
+    }
 }

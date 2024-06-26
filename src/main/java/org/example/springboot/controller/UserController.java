@@ -4,10 +4,7 @@ import jakarta.annotation.Resource;
 import org.example.springboot.common.Result;
 import org.example.springboot.entity.User;
 import org.example.springboot.service.UserService;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +25,15 @@ public class UserController {
     public Result findAll() {
         List<User> list = userService.findAll();
         return Result.success(list);
+    }
+
+    @PostMapping("/login")
+    public Result login(@RequestBody User user) {
+        User u = userService.login(user);
+        if(u != null) {
+            return Result.success(u);
+        } else {
+            return Result.error("用户名或密码错误");
+        }
     }
 }
