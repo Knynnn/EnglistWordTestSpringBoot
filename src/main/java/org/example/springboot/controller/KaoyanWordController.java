@@ -53,11 +53,10 @@ public class KaoyanWordController {
     }
 
     @PostMapping("/testVocabulary")
-    public Result testVocabulary(@RequestBody Map<String, List<String>> request) {
+    public Result testVocabulary(@RequestBody Map<String, List<String>> request) throws Exception{
         List<String> knownWords = request.get("knownWords");
         List<String> unknownWords = request.get("unknownWords");
-        List<String> testWords = request.get("testWords");
-        Map<String, Object> result = kaoyanWordService.conductVocabularyTest(knownWords, unknownWords, testWords);
+        int result = kaoyanWordService.conductVocabularyTest(knownWords, unknownWords);
         return Result.success(result);
     }
 }

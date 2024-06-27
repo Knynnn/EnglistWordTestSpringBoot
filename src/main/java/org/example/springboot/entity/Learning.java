@@ -3,6 +3,9 @@ package org.example.springboot.entity;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.List;
+
+import static java.lang.Math.max;
 
 public class Learning {
     final int DCS=6891;
@@ -83,7 +86,7 @@ public class Learning {
                 }
 
                 for (int i=1;i<=SJ[d][0][1];i++) {
-                    QZ[ SJ[d][i][1] ][1]=QZ[ SJ[d][i][1] ][1]-pc*LR;
+                    QZ[ SJ[d][i][1] ][1]=QZ[ SJ[d][i][1] ][1]-pc*LR*0.1;
                 }
 
             }
@@ -110,7 +113,20 @@ public class Learning {
                 jg+=QZ[id][1];
             }
 
-            System.out.printf("%d\n",(int)jg);
+            System.out.printf("%d\n",max(50,(int)jg));
         }
+    }
+
+    public int output(List<String> Hui, List<String> BuHui) throws Exception {
+        double jg=0.0;
+        for (String ss: Hui){
+            int id=DC.half(ss);
+            jg+=QZ[id][0];
+        }
+        for (String ss: BuHui){
+            int id=DC.half(ss);
+            jg+=QZ[id][1];
+        }
+        return max((int)jg,50);
     }
 }

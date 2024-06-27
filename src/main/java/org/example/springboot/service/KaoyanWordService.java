@@ -4,12 +4,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import jakarta.annotation.Resource;
 import org.example.springboot.dao.KaoyanWordDao;
+import org.example.springboot.entity.ChuLiDanCi;
 import org.example.springboot.entity.KaoyanWord;
+import org.example.springboot.entity.Learning;
 import org.example.springboot.entity.Params;
 import org.example.springboot.exception.CustomException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,48 +60,24 @@ public class KaoyanWordService {
     }
 
     @Transactional
-    public Map<String, Object> conductVocabularyTest(List<String> knownWords, List<String> unknownWords, List<String> testWords) {
-        Map<String, Object> result = new HashMap<>();
-
-        // 统计各个等级的正确率
-        Map<Integer, Integer> correctCounts = new HashMap<>();
-        Map<Integer, Integer> totalCounts = new HashMap<>();
-
-        for (String word : testWords) {
-            KaoyanWord kaoyanWord = kaoyanWordDao.findByWord(word);
-            if (kaoyanWord != null) {
-                int level = kaoyanWord.getLevel();
-                totalCounts.put(level, totalCounts.getOrDefault(level, 0) + 1);
-                if (knownWords.contains(word)) {
-                    correctCounts.put(level, correctCounts.getOrDefault(level, 0) + 1);
-                }
-            }
+    public int conductVocabularyTest(List<String> knownWords, List<String> unknownWords) throws FileNotFoundException,Exception{
+        ChuLiDanCi DC=null;
+        try{
+            DC=new ChuLiDanCi();
+        }catch ( FileNotFoundException e ){
+            System.out.printf("文件未找到\n");
         }
-
-        // 输出每个等级的 correctCount 和 totalCount
-        for (int level = 1; level <= 4; level++) {
-            int correctCount = correctCounts.getOrDefault(level, 0);
-            int totalCount = totalCounts.getOrDefault(level, 0);
-            System.out.println("Level " + level + ": correctCount = " + correctCount + ", totalCount = " + totalCount);
-        }
-
-        // 计算总的正确率
-        double totalCorrectRate = 0.0;
-        for (int level = 1; level <= 4; level++) {
-            int correctCount = correctCounts.getOrDefault(level, 0);
-            int totalCount = totalCounts.getOrDefault(level, 0);
-            if (totalCount > 0) {
-                double correctRate = (double) correctCount / totalCount;
-                totalCorrectRate += correctRate * level;
-            }
-        }
-        totalCorrectRate /= 4;
-
-        // 估算词汇量
-        long totalWords = kaoyanWordDao.count();
-        long estimatedVocabularySize = (long) (totalWords * totalCorrectRate);
-
-        result.put("estimatedVocabularySize", estimatedVocabularySize);
+        DC.XieDanCi();
+        /*
+        try{
+            System.out.printf("%d\n",DC.half(new String("word")));
+        }catch ( Exception e ){
+            e.printStackTrace();
+        }*/
+        Learning ML=new Learning(DC);
+        ML.xunLian();
+        int result = ML.output(knownWords, unknownWords);
+        System.out.println(result);
         return result;
     }
 }
