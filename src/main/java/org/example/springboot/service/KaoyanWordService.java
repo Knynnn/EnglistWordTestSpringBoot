@@ -6,6 +6,7 @@ import jakarta.annotation.Resource;
 import org.example.springboot.dao.KaoyanWordDao;
 import org.example.springboot.entity.KaoyanWord;
 import org.example.springboot.entity.Params;
+import org.example.springboot.exception.CustomException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,7 +35,7 @@ public class KaoyanWordService {
     public void add(KaoyanWord kaoyanWord) {
         KaoyanWord word = kaoyanWordDao.findByWord(kaoyanWord.getWord());
         if (word != null) {
-            throw new RuntimeException("单词已存在");
+            throw new CustomException("单词已存在,请勿重复添加");
         }
         kaoyanWordDao.insertSelective(kaoyanWord);
     }
