@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.springboot.dao.Cet4WordDao">
+<select id="findBySearch" resultType="org.example.springboot.entity.KaoyanWord">
+    select * from cet4
+    <where>
+        <if test="params != null and params.word != null and params.word != ''">
+            and word like concat('%', #{params.word}, '%')
+        </if>
+        <if test="params != null and params.definition != null and params.definition != ''">
+            and definition like concat('%', #{params.definition}, '%')
+        </if>
+    </where>
+</select>
+</mapper>

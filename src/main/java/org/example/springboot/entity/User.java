@@ -16,6 +16,11 @@ public class User {
     private String sex;
     @Column(name = "age")
     private Integer age;
+    private Integer cet4;
+    private Integer cet6;
+    private Integer wordsize;
+
+
 
     public Integer getId() {
         return id;
@@ -57,4 +62,27 @@ public class User {
         this.password = password;
     }
 
+    public Integer getCet6() {
+        return cet6;
+    }
+
+    public void setCet6(Integer cet6) {
+        this.cet6 = cet6;
+    }
+
+    public Integer getCet4() {
+        return cet4;
+    }
+
+    public void setCet4(Integer cet4) {
+        this.cet4 = cet4;
+    }
+
+    public Integer getWordsize() {
+        return wordsize;
+    }
+
+    public void setWordsize(Integer wordsize) {
+        this.wordsize = wordsize;
+    }
 }

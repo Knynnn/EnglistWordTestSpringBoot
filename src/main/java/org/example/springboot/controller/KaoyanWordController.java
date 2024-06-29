@@ -59,4 +59,6 @@ public class KaoyanWordController {
         int result = kaoyanWordService.conductVocabularyTest(knownWords, unknownWords);
         return Result.success(result);
     }
+
+
 }

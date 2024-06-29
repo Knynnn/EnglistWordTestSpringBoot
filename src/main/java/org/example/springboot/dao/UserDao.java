@@ -15,4 +15,6 @@ public interface UserDao extends Mapper<User> {
 
     @Select("select * from user where id = #{id} and password = #{password} limit 1")
     User findByIdAndPassword(Integer id, String password);
+
+    void save(User user);
 }
